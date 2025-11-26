@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Scan Error</title>
+</head>
+<body>
+    <h1 style="color: red;">❌ Scan Error</h1>
+    <p>There was a problem scanning the server.</p>
+
+    {% if error %}
+        <div style="background: #fdd; border: 1px solid red; padding: 10px;">
+            <strong>Error:</strong> {{ error }}
+        </div>
+    {% else %}
+        <p>No additional error details available.</p>
+    {% endif %}
+
+    <a href="{% url 'dashboard' %}">Back to dashboard</a>
+</body>
+</html>

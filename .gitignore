@@ -1,0 +1,45 @@
+# --- Virtual environment ---
+venv/
+
+# --- Python ---
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.log
+
+# --- Django ---
+*.sqlite3
+db.sqlite3
+media/
+staticfiles/
+*.pot
+*/migrations/__pycache__/
+*/migrations/*.py
+*.egg-info/
+
+# --- Secrets / config ---
+.env
+.env.*
+config.json
+secrets.json
+database.ini
+*.pem
+*.key
+id_rsa
+id_rsa.pub
+
+# --- Streamlit ---
+.streamlit/credentials.toml
+.streamlit/config.toml
+
+# --- MariaDB / DB dumps ---
+*.sql
+*.sql.gz
+
+# --- Nmap outputs / scan results ---
+*.nmap
+*.xml
+*.gnmap
+scan_results/
+results/

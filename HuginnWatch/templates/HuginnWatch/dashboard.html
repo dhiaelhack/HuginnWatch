@@ -1,0 +1,66 @@
+<h1>Dashboard</h1>
+
+{% if server %}
+  <p><strong>Your server:</strong> {{ server.name }} ({{ server.ip_address }})</p>
+  <a href="{% url 'manage_server' %}">Edit Server</a>
+
+  <hr>
+
+  <h2>Latest Scan Report</h2>
+
+  {% if scan %}
+    <p><strong>Date:</strong> {{ scan.timestamp|date:"Y-m-d H:i" }}</p>
+
+    <h4>Open Ports:</h4>
+    <pre>{{ scan.ports }}</pre>
+
+    <a href="#" onclick="toggleRaw()">Show Raw Nmap Output</a>
+    <pre id="raw-output" style="display:none;">{{ scan.raw_output }}</pre>
+
+    <script>
+      function toggleRaw() {
+        const el = document.getElementById("raw-output");
+        el.style.display = el.style.display === "none" ? "block" : "none";
+      }
+    </script>
+  {% else %}
+    <p>No scans available yet.</p>
+  {% endif %}
+
+  <button id="scanBtn">Run Scan Manually</button>
+  <div id="scanResult"></div>
+
+  <script>
+    document.getElementById('scanBtn').onclick = () => {
+      fetch("{% url 'api_trigger_scan' server.id %}")
+        .then(response => response.json())
+        .then(data => {
+          if (data.error) {
+            alert(data.error);
+          } else {
+            document.getElementById('scanResult').textContent = data.ports.join("\n");
+            alert("Scan complete and saved!");
+            // Optional: reload the page to show updated scan in template
+            // location.reload();
+          }
+        });
+    };
+  </script>
+
+  <hr>
+
+  <h3>Scan History</h3>
+  <ul>
+    {% for s in scans %}
+      <li>
+        <strong>{{ s.timestamp|date:"Y-m-d H:i" }}:</strong>
+        {{ s.ports|linebreaks }}
+      </li>
+    {% empty %}
+      <li>No past scans yet.</li>
+    {% endfor %}
+  </ul>
+
+{% else %}
+  <p>No server configured. <a href="{% url 'manage_server' %}">Add one now</a></p>
+{% endif %}

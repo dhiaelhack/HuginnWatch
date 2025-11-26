@@ -1,0 +1,14 @@
+<h2>Scan Results for {{ ip }}</h2>
+
+{% if ports %}
+<ul>
+    {% for port in ports %}
+        <li>{{ port }}</li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>No open ports found or scan failed.</p>
+{% endif %}
+
+<h3>Raw Output:</h3>
+<pre>{{ raw_output }}</pre>
